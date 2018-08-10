@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style type="text/css">
+    *{
+        padding: 0;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    ol {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+        
+    #radioGroup p {
+            display: block;
+            text-align: center;
+            margin: 30px;
+            margin-left:20px;
+            margin-top:10px
+        }
+    #radioGroup input[type="radio"] {
+        display: block;
+        margin: 0.5em auto;
+    }
+    #btn {
+        top: 40px;
+        position: relative;
+        text-align:center;
+        margin-left:20px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    #topic {
+        margin-top:40px;
+        text-align: center;
+    }
+        </style>
+</head>
+<div id="topic">
+<h2>Q2, Overall, how would you rate your knowledge on below programming skills ?</h2>
+<p><font size="3" style="color:blue">Please ANSWER all questions. 1---you have no idea about it. 10---you are the expert. </font></p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    {% if programmingQuestion %}
+    <input type="hidden" name="user" value="{{user.id}}">
+    <ul>
+        {% if error_message %}<p><font color="red"><strong>{{ error_message }}</strong></font></p>{% endif %}
+        {% for programming in programmingQuestion %}
+            <ol><li class="col-xs-12" value = "{{forloop.counter}}"><h3>{{ programming.programming_question_text}}</h3></li></ol>
+            <table class = "inputs_table">
+                <tbody>
+                    <tr>
+                        {% for rating in programming.rating_set.all %}
+                            <td>
+                                <div id="radioGroup">
+                                    <div class="wrap">
+                                        <p for="rating{{ forloop.counter }}">{{rating.rating_text}}</br>
+                                        <input type="radio" name="{{programming.id}}" id="rating{{ forloop.counter }}" value="{{ rating.rating_number }}" /></p>
+                                    </div>
+                                </div>
+                            </td>
+                         {% endfor %}
+                    </td>
+                </tbody>
+            </table>
+        {% endfor %}
+    </ul>
+    <div id="btn">
+    <button type="submit" name = 'continue' value = 'Continue' class="btn btn-primary">Submit</button>
+    </div>
+    {% else %}
+    <p>No programming question is available.</p>
+    {% endif %}
+    
+</form>
+{% endblock %}

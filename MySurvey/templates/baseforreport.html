@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<head>
+    <title>Kibo Survey</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/kibosurvey.css' %}">
+</head>
+
+<body>
+    <div class="page-header">
+        {% if user.is_authenticated %}
+        <h1 class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)(<a href="{% url 'update_profile' %}">Update</a>)</small></h1>
+        {% else %}
+        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        {% endif %}
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>

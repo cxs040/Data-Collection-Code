@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+#signup {
+   
+    margin: auto;
+    margin-top:40px;
+    margin-left:50px;
+    position: relative;
+}
+
+
+</style>
+</head>
+
+<div id="signup">
+<h2>Sign up</h2>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <p><font color="red"><li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li></font></p>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    
+    {% for field in form %}
+    <p>
+        {{ field.label_tag }}<br>
+
+        {{ field }}
+ 
+        {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+        {% endfor %}
+    </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+</form>
+</div>
+{% endblock %}

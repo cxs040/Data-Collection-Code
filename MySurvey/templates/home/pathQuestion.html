@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style type="text/css">
+        *{
+            padding: 0;
+        }
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .labelgroup {
+        display: inline-block;
+        text-align: center;
+        margin :20px;
+    }
+    #radioGroup input[type="radio"] {
+        display: inline-block;
+        margin: 0.5em auto;
+    }
+    #btn {
+        top: 40px;
+        position: relative;
+        text-align:center;
+        margin-left:20px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    #topic {
+        text-align: center;
+        margin-top:40px;
+    }
+    </style>
+</head>
+<div id="topic">
+<p><font size="3" style="color:gray">(Your information has been successfully saved)</font></p>
+<h2>Are you familiar with other system?</h2>
+</div>
+<form method="post">
+    {% csrf_token %}
+     <ul>
+        <div id="radioGroup">
+            <div class="wrap">
+                <input type="radio" name="select"  value="1"></input><label class="labelgroup">Yes--(Rate another system's knowledge)</label></br>
+                <input type="radio" name="select" value="2" checked></input><label class="labelgroup">No---(Go to next question)</label>
+                </br>
+            </div>
+        </div>
+        <div id="btn">
+        <input type="submit" class="btn btn-primary col-xs-12" value="Next" />
+        </div>
+    </ul>
+   
+</form>
+{% endblock %}

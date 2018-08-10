@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+<style>
+#form {
+text-align: center;
+margin: auto;
+margin-top:80px;
+position: relative;
+}
+
+#button {
+display: inline-block;
+position: absolute;
+margin-left:30px;
+}
+</style>
+</head>
+<div id="form">
+<h2>Login</h2><br>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div id="button">
+    <button type="submit" class="btn btn-primary btn-md">Login</button><br>
+    <a href="{% url 'signup' %}">Sign up</a><br>
+    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+    </div>
+</form>
+</div>
+{% endblock %}

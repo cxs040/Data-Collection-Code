@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Personal Report</title>
+<style>
+h2 {
+        text-align: center;
+    }
+h3 {
+    text-align: center;
+    margin-top:60px;
+    }
+#graph1 {
+    display: inline-block;
+    margin: auto;
+    margin-left:120px;
+}
+#graph2 {
+    display: inline-block;
+    margin: auto;
+}
+</style>
+</head>
+</body>
+<h3> {{focusedUserName}}'s report </h3>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+<div id = "graph1">
+    {{ chart.as_html }}
+</div>
+
+<div id = "graph2">
+    {{ chart2.as_html }}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends 'baseforreport.html' %}
+{% block content %}
+<head>
+<style>
+    #content {
+        margin: auto;
+        margin-top:40px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .btn-group {
+        display: flex;
+        position: absolute;
+        margin-top:60px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+    form {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-content: center;
+    }
+    .dropdown{
+       display: inline-block;
+
+    }
+    button {
+        margin-left: 20px;
+    }
+</style>
+</head>
+<div id="content">
+<h2>Welcome to manage page</h2>
+<form method="post">
+    {% csrf_token %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                View Report
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'report' report_id=1 %}">2017_May_to_August</a>
+                <a class="dropdown-item" href="{% url 'report' report_id=2 %}">2017_September_to_December</a>
+                <a class="dropdown-item" href="{% url 'report' report_id=3 %}">2018_Jan_to_April</a>
+             </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     Download Report
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="submit" name="select" value = "1">2017_May_to_August</button>
+                    <button class="dropdown-item" type="submit" name="select" value = "2">2017_September_to_December</button>
+                    <button class="dropdown-item" type="submit" name="select" value = "3">2018_Jan_to_April</button>
+                </div>
+            </div>
+    </div>
+</form>
+</div>
+{% endblock %}

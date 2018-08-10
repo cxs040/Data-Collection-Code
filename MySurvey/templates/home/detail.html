@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style type="text/css">
+        *{
+            padding: 0;
+        }
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    ol {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #radioGroup p {
+        display: block;
+        text-align: center;
+        margin: 30px;
+        margin-top:10px;
+        margin-left:20px;
+    }
+    #radioGroup input[type="radio"] {
+        display: block;
+        margin: 0.5em auto;
+    }
+    #btn {
+        top: 40px;
+        position: relative;
+        text-align:center;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+    #topic {
+        text-align: center;
+        margin-left:20px;
+        margin-top:40px;
+    }
+    button{
+         margin: 20px;
+    }
+    </style>
+</head>
+<div id="topic">
+<h2>Q1, How would you rate your KIBO {{ product.product_name}} Knowledge?</h2>
+<p><font size="3" style="color:blue">Please ANSWER all questions. 1---you have no idea about it. 10---you are the expert. </font></p>
+</div>
+<form name="survey" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="user" value="{{user.id}}">
+    <ul>
+        {% if error_message %}<p><font color="red"><strong>{{ error_message }}</strong></font></p>{% endif %}
+        {% for question in product.question_set.all %}
+            <ol><li class="col-xs-12" value = "{{forloop.counter}}"><h3>{{question.question_text}}</h3></li></ol>
+            <table class = "inputs_table">
+                <tbody>
+                    <tr>
+                        {% for rating in question.rating_set.all %}
+                        
+                        <td>
+                            <div id="radioGroup">
+                                <div class="wrap">
+                                        <p for="rating{{ forloop.counter }}">{{rating.rating_text}}</br>
+                                        <input type="radio" name="{{ question.id }}" id="rating{{ forloop.counter }}" value="{{ rating.rating_number }}" /></p>
+                                </div>
+                            </div>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        {% endfor %}
+    </ul>
+    <div id="btn">
+    <button type="submit" name = 'continue' value = 'Continue'  class="btn btn-primary col-xs-12">Save and Continue</button>
+    <button type="submit" name = 'back' value = 'Back'  class="btn btn-primary col-xs-12" >Go Back</button>
+    </div>
+</form>
+{% endblock %}
+

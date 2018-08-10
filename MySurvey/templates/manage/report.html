@@ -1,0 +1,109 @@
+{% extends 'baseforreport.html' %}
+{% load app_tags %}
+{% block content %}
+<head>
+<style>
+    h2 {
+        text-align: center;
+    }
+    h3 {
+        text-align: center;
+        margin-top:60px;
+
+    }
+
+    #graph1 {
+        display: inline-block;
+        margin: auto;
+        margin-left:120px;
+    }
+    #graph2 {
+        display: inline-block;
+        margin: auto;
+    }
+
+    .table {
+        width: 80% !important;
+        text-align: center;
+        }
+
+    th {
+        text-align: center
+    }
+
+</style>
+</head>
+
+<form method="post">
+<!--    <a href="#home_section" name="test" value="testing">home</a>-->
+<!--    -->
+<!--    <section id="home_section">test</section>-->
+{% if productresults or programmingresults %}
+    <h3>{{report_title}}</h3>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        </script>
+    <div id = "graph1">
+        {{ chart.as_html }}
+    </div>
+    <div id = "graph2">
+        {{ chart2.as_html }}
+    </div>
+    <table class="table table-sm table-hover table-responsive" align="center">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Questions</th>
+                {% for profile in profiles %}
+                    {% if not profile.user.is_superuser %}
+                    <td style="text-align: center">Name:<a href="{% url 'personalReport' report_id profile.user.id %}"  onclick="window.open('user/{{ profile.user.id }}', 'newwindow', 'width=1000,height=400,left=500,top=400', 'false'); return false;" >{{profile.user.first_name}}_{{profile.user.last_name}}</a></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in product_list %}
+                {% for question in product.question_set.all %}
+                    <tr>
+                        <td>{{product.product_name}}</td>
+                        <td>{{question.question_text}}</td>
+                        
+                        {% for profile in profiles %}
+                        
+                            {% if not profile.user.is_superuser %}
+                            
+                                {% product profile.user.id question.id productresults as info %}
+                                
+                                <td>{{ info }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            {% for pq in programmingquestions %}
+                <tr>
+                    <td>Programming Question</td>
+                    
+                    <td>{{pq.programming_question_text}}</td>
+                    
+                    {% for profile in profiles %}
+                    
+                        {% if not profile.user.is_superuser %}
+                    
+                            {% programming profile.user.id pq.id programmingresults as info %}
+                            
+                            <td>{{ info }}</td>
+                        
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h2>No report of this time is available, please check back</h2>
+{% endif %}
+
+</form>
+{% endblock %}

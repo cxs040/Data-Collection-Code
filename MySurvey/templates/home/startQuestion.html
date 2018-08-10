@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <style type="text/css">
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h2 {
+            text-align: center;
+            margin-top:40px;
+        }
+    
+        li {
+            margin-top:20px;
+             float:left;
+        }
+    </style>
+</head>
+<h2>which below system are you most familar with?</h2>
+<form method="post">
+    {% csrf_token %}
+    {% if product_list %}
+        <ul>
+        {% for product in product_list %}
+            <li><a href="{% url 'detail' product.id %}"><font size = "5">{{ product.product_name}}</font></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No systems are available.</p>
+    {% endif %}
+</form>
+{% endblock %}
